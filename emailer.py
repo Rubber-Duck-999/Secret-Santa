@@ -5,12 +5,8 @@ import smtplib
 import json
 import logging
 import os
-from pathlib import Path
 from email.mime.text import MIMEText
 from email.mime.multipart import MIMEMultipart
-from email import encoders
-from email.mime.base import MIMEBase
-
 
 class Emailer:
     '''Emailer for sending users their result'''
@@ -40,34 +36,26 @@ class Emailer:
             logging.error('Type not available: {}'.format(error))
         return False
 
-    def email(self, to_email, subject, text, filename):
+    def send(self, to_email, html):
         '''Set up message for email from stores'''
-        logging.info('# email()')
+        logging.info('# send()')
         try:
             server = smtplib.SMTP('smtp.gmail.com', 587)
             server.ehlo()
             server.starttls()
             server.ehlo()
-            message = MIMEMultipart()
-            message['Subject'] = subject
+            message = MIMEMultipart('alternative')
+            message['Subject'] = "Secret Santa Reveal"
             message['From'] = self.from_email
-            message['To'] = ", ".join(to_email)
-            part = MIMEBase('application', "octet-stream")
-            with open(filename, 'rb') as file:
-                part.set_payload(file.read())
-            encoders.encode_base64(part)
-            part.add_header('Content-Disposition',
-                        'attachment; filename={}'.format(Path(filename).name))
-            message.attach(part)
-            message.attach(MIMEText(text, 'plain'))
+            message['To'] = to_email
+            message.attach(MIMEText(html, 'html'))
+            logging.info('Attaching message')
             server.login(self.from_email, self.from_password)
-            # server.sendmail(self.from_email, to_email, message.as_string())
+            server.sendmail(self.from_email, to_email, message.as_string())
             server.close()
-            logging.info('Remove file')
-            os.remove(filename)
         except smtplib.SMTPAuthenticationError as error:
             logging.error('Error occured on auth: {}'.format(error))
         except smtplib.SMTPException as error:
             logging.error('Error occured on SMTP: {}'.format(error))
         except TypeError as error:
-            logging.error('Type error: {}'.format(error))
+            logging.error('Type error on send: {}'.format(error))
