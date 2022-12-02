@@ -1,2 +1,3 @@
-*.json
+users.json
 *.pyc
+*.jpg

@@ -1,0 +1,18 @@
+{
+  "users": [
+    {
+      "name": "Dave",
+      "exclude": [
+        "Bob"
+      ]
+    },
+    {
+      "name": "Jeff",
+      "exclude": []
+    },
+    {
+      "name": "Bob",
+      "exclude": []
+    }
+  ]
+}

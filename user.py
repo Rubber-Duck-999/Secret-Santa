@@ -15,9 +15,6 @@ class User:
             self.name = self.user['name']
             if len(self.name) < 3:
                 raise BadData('User was not correct name length')
-            self.email = self.user['email']
-            if len(self.name) < 3 or '@' not in self.email:
-                raise BadData('Email was not correct name length')
             self.exclude = self.user['exclude']
         except KeyError as error:
             logging.error('Key error on conversion: {}'.format(error))
