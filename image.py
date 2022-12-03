@@ -18,7 +18,7 @@ def get_html(user, to_give):
                 <h2>{}<h2>
                 <h3>Rules</h3>
                 <ul style="text-align: center; list-style-position: inside;">
-                    <li>You cannot spend more than £10</li>
+                    <li>You cannot spend more than £8</li>
                     <li>Please remember to keep this a secret</p>
                 </ul>
             </div>
@@ -35,8 +35,8 @@ def get_image(user, to_give):
         'encoding': "UTF-8",
     }
     try:
-        filename = '{}.html'.format(user)
-        outname = '{}.jpg'.format(user)
+        filename = 'images/{}.html'.format(user)
+        outname = 'images/{}.jpg'.format(user)
         file = open(filename, "w")
         file.write(html)
         file.close()

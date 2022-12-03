@@ -7,14 +7,14 @@ from user import User
 from image import get_image
 
 logging.basicConfig(format='%(asctime)s - %(levelname)s - %(message)s', 
-                    level=logging.DEBUG)
+                    level=logging.INFO)
 
 logging.info("Starting program")
 
 class SecretSanta:
     '''Class to decide where to send info to users'''
     def __init__(self):
-        self.config = 'example_users.json'
+        self.config = 'users.json'
         self.users = []
         self.done_list = []
         self.finished_users = []
@@ -79,7 +79,7 @@ class SecretSanta:
         for index, user in enumerate(self.finished_users):
             if user.to_give != user.name and len(user.to_give) > 0:
                 get_image(user.name, user.to_give)
-                logging.info('User : {}, User: {}'.format(user.name, user.to_give))
+                logging.info('User : {}'.format(user.name, user.to_give))
             else:
                 logging.info('User: {} has no valid give'.format(user.name))
                 self.done_list = []
